@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================== ПЕРЕМЕННЫЕ ===================== */
+:root {
+  --tg-bg:        #ffffff;
+  --tg-secondary: #f2f2f7;
+  --tg-text:      #000000;
+  --tg-hint:      #8e8e93;
+  --tg-link:      #007aff;
+  --tg-btn:       #007aff;
+  --tg-btn-text:  #ffffff;
+
+  --card-bg:      #ffffff;
+  --card-border:  rgba(0,0,0,0.06);
+  --card-shadow:  0 2px 12px rgba(0,0,0,0.06);
+
+  --green:  #34c759;
+  --red:    #ff3b30;
+  --blue:   #007aff;
+  --orange: #ff9500;
+  --purple: #af52de;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+/* ===================== СБРОС ===================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  overflow-x: hidden;
+  background: var(--tg-secondary, #f2f2f7);
+  color: var(--tg-text, #000);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 16px !important; /* блокирует зум iOS */
+}
+
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* ===================== SAFE AREA ===================== */
+.safe-bottom { padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px); }
+.safe-top    { padding-top: env(safe-area-inset-top, 0px); }
+
+/* ===================== КАРТОЧКИ ===================== */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
+}
+
+/* ===================== КНОПКИ ===================== */
+.btn {
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  outline: none;
+}
+.btn:active { transform: scale(0.96); opacity: 0.85; }
+
+.btn-primary   { background: var(--blue);  color: #fff; }
+.btn-green     { background: var(--green); color: #fff; }
+.btn-red       { background: var(--red);   color: #fff; }
+.btn-secondary { background: var(--tg-secondary); color: var(--tg-text); }
+
+/* ===================== ИНПУТЫ ===================== */
+.input {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  font-size: 16px;
+  color: var(--tg-text);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.input:focus { border-color: var(--blue); }
+
+/* ===================== АНИМАЦИИ ===================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.animate-fade-in   { animation: fadeIn  0.3s ease both; }
+.animate-slide-up  { animation: slideUp 0.35s ease both; }
+.animate-scale-in  { animation: scaleIn 0.25s ease both; }
+.animate-spin-smooth { animation: spin 0.8s linear infinite; }
+
+/* Задержки для каскадных анимаций */
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.10s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.20s; }
+.delay-5 { animation-delay: 0.25s; }
+
+/* ===================== СКЕЛЕТОН-ЗАГРУЗКА ===================== */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ===================== BADGE ===================== */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-green  { background: rgba(52,199,89,0.15);  color: #1a7a34; }
+.badge-red    { background: rgba(255,59,48,0.12);  color: #c0392b; }
+.badge-blue   { background: rgba(0,122,255,0.12);  color: #0055cc; }
+.badge-orange { background: rgba(255,149,0,0.15);  color: #b36a00; }
+
+/* ===================== НИЖНЯЯ НАВИГАЦИЯ ===================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(0,0,0,0.08);
+  z-index: 100;
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 4px);
+}
+
+/* ===================== TOAST ===================== */
+.toast {
+  position: fixed;
+  top: 16px; left: 16px; right: 16px;
+  background: rgba(30,30,30,0.92);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 200;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.25s ease both;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* ===================== СТРАНИЦА ЗАГРУЗКИ ===================== */
+.splash {
+  position: fixed; inset: 0;
+  background: var(--tg-bg, #fff);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 20px;
+  z-index: 999;
+}
+
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(0,122,255,0.2);
+  border-top-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* ===================== ЧИСЛО — БОЛЬШОЙ ОСТАТОК ===================== */
+.stock-number {
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -2px;
+}

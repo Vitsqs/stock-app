@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  WORKER
+}
+
+enum StockMovementType {
+  INCOME
+  OUTCOME
+  ADJUSTMENT
+}
+
+model User {
+  id           String    @id @default(cuid())
+  telegramId   String    @unique
+  username     String?
+  firstName    String?
+  lastName     String?
+  languageCode String?
+  role         UserRole  @default(WORKER)
+  isActive     Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  movements StockMovement[]
+  auditLogs AuditLog[]
+
+  @@index([telegramId])
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  sku          String   @unique
+  name         String
+  volume       String?
+  unit         String
+  barcode      String?
+  description  String?
+  imageUrl     String?
+  currentStock Int      @default(0)
+  minStock     Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  movements StockMovement[]
+
+  @@index([sku])
+  @@index([name])
+}
+
+model StockMovement {
+  id            String            @id @default(cuid())
+  productId     String
+  type          StockMovementType
+  quantity      Int
+  previousStock Int
+  newStock      Int
+  comment       String?
+  userId        String
+  createdAt     DateTime          @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([productId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  entityType String
+  entityId   String
+  oldValue   Json?
+  newValue   Json?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
